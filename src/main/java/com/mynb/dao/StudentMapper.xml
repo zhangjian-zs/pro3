@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mynb.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.mynb.pojo.Student" >
+    <id column="stu_id" property="stuId"  />
+    <result column="stu_no" property="stuNo"  />
+    <result column="stu_name" property="stuName"   />
+    <result column="stu_login" property="stuLogin"   />
+    <result column="stu_passwd" property="stuPasswd"  />
+    <result column="stu_phone" property="stuPhone"  />
+    <result column="stu_limit" property="stuLimit"  />
+    <result column="stu_remain" property="stuRemain"  />
+    <result column="stu_note" property="stuNote"   />
+    <result column="college_id" property="collegeId"  />
+  </resultMap><resultMap id="PartResultMap" type="com.mynb.pojo.Student" >
+  <id column="stu_id" property="stuId"  />
+  <result column="stu_no" property="stuNo"  />
+  <result column="stu_name" property="stuName"   />
+  <result column="stu_phone" property="stuPhone"  />
+  <result column="stu_remain" property="stuRemain"  />
+</resultMap>
+  <sql id="Base_Column_List" >
+    stu_id, stu_no, stu_name, stu_login, stu_passwd, stu_phone, stu_limit, stu_remain,
+    stu_note, college_id
+  </sql>
+  <select id="selectStusByInfo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from student where stu_no like #{info} union
+    select <include refid="Base_Column_List" /> from student where stu_name like #{info} union
+    select <include refid="Base_Column_List" /> from student where stu_login like #{info} union
+    select <include refid="Base_Column_List" /> from student where stu_phone like #{info} union
+    select <include refid="Base_Column_List" /> from student where stu_note like #{info}
+
+  </select>
+  <select id="listAllStu" resultMap="PartResultMap" >
+    select
+    stu_id,stu_no,stu_name,stu_phone,stu_remain
+    from student order by stu_id desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mynb.pojo.Student" >
+    insert into student (stu_id, stu_no, stu_name, 
+      stu_login, stu_passwd, stu_phone, 
+      stu_limit, stu_remain, stu_note, 
+      college_id)
+    values (#{stuId,jdbcType=INTEGER}, #{stuNo,jdbcType=CHAR}, #{stuName   }, 
+      #{stuLogin   }, #{stuPasswd,jdbcType=CHAR}, #{stuPhone,jdbcType=CHAR}, 
+      #{stuLimit,jdbcType=INTEGER}, #{stuRemain,jdbcType=INTEGER}, #{stuNote   }, 
+      #{collegeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mynb.pojo.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="stuNo != null" >
+        stu_no,
+      </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="stuLogin != null" >
+        stu_login,
+      </if>
+      <if test="stuPasswd != null" >
+        stu_passwd,
+      </if>
+      <if test="stuPhone != null" >
+        stu_phone,
+      </if>
+      <if test="stuLimit != null" >
+        stu_limit,
+      </if>
+      <if test="stuRemain != null" >
+        stu_remain,
+      </if>
+      <if test="stuNote != null" >
+        stu_note,
+      </if>
+      <if test="collegeId != null" >
+        college_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="stuNo != null" >
+        #{stuNo,jdbcType=CHAR},
+      </if>
+      <if test="stuName != null" >
+        #{stuName   },
+      </if>
+      <if test="stuLogin != null" >
+        #{stuLogin   },
+      </if>
+      <if test="stuPasswd != null" >
+        #{stuPasswd,jdbcType=CHAR},
+      </if>
+      <if test="stuPhone != null" >
+        #{stuPhone,jdbcType=CHAR},
+      </if>
+      <if test="stuLimit != null" >
+        #{stuLimit,jdbcType=INTEGER},
+      </if>
+      <if test="stuRemain != null" >
+        #{stuRemain,jdbcType=INTEGER},
+      </if>
+      <if test="stuNote != null" >
+        #{stuNote   },
+      </if>
+      <if test="collegeId != null" >
+        #{collegeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mynb.pojo.Student" >
+    update student
+    <set >
+      <if test="stuNo != null" >
+        stu_no = #{stuNo,jdbcType=CHAR},
+      </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName   },
+      </if>
+      <if test="stuLogin != null" >
+        stu_login = #{stuLogin   },
+      </if>
+      <if test="stuPasswd != null" >
+        stu_passwd = #{stuPasswd,jdbcType=CHAR},
+      </if>
+      <if test="stuPhone != null" >
+        stu_phone = #{stuPhone,jdbcType=CHAR},
+      </if>
+      <if test="stuLimit != null" >
+        stu_limit = #{stuLimit,jdbcType=INTEGER},
+      </if>
+      <if test="stuRemain != null" >
+        stu_remain = #{stuRemain,jdbcType=INTEGER},
+      </if>
+      <if test="stuNote != null" >
+        stu_note = #{stuNote   },
+      </if>
+      <if test="collegeId != null" >
+        college_id = #{collegeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mynb.pojo.Student" >
+    update student
+    set stu_no = #{stuNo,jdbcType=CHAR},
+      stu_name = #{stuName   },
+      stu_login = #{stuLogin   },
+      stu_passwd = #{stuPasswd,jdbcType=CHAR},
+      stu_phone = #{stuPhone,jdbcType=CHAR},
+      stu_limit = #{stuLimit,jdbcType=INTEGER},
+      stu_remain = #{stuRemain,jdbcType=INTEGER},
+      stu_note = #{stuNote   },
+      college_id = #{collegeId,jdbcType=INTEGER}
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+</mapper>
