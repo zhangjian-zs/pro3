@@ -50,11 +50,59 @@ create table if not exists userinfo (
 
 insert into userinfo(user_name,user_login) values('张三','zhangsan');
 
+/*商品表*/
+drop table if exists goods;
+create table if not exists goods (
+  goods_id smallint(11) NOT NULL AUTO_INCREMENT primary key,
+  goods_name varchar(30) NOT NULL,
+  goods_price double default 0,
+  goods_left smallint DEFAULT 0,
+  goods_detail varchar(255) DEFAULT '无',
+  goods_picture varchar(255) DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+insert into goods (goods_name,goods_price,goods_left) values ('乐扣杯',40,100);
+insert into goods (goods_name,goods_price,goods_left) values ('罗技k120',55,200);
+insert into goods (goods_name,goods_price,goods_left) values ('脆司令',2,600);
 
 
-select * from student where stu_name REGEXP '^张三[1-9]{0,1}$';
-select count(stu_id) from student where stu_name REGEXP '^张三[1-9]{0,1}$';
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 drop table if exists detailtype; 
 
 /**费用类型**/

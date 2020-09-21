@@ -2,6 +2,7 @@ package com.mynb.service;
 
 import com.github.pagehelper.PageInfo;
 import com.mynb.pojo.College;
+import com.mynb.pojo.Goods;
 import com.mynb.pojo.Student;
 import com.mynb.pojo.Userinfo;
 
@@ -78,4 +79,28 @@ public interface ICardService {
 	 * @return
 	 */
 	boolean confirmPwd(Integer userId, String newPasswd);
+
+	/**
+	 * 查询所有的商品
+	 *
+	 * @return
+	 */
+	List<Goods> listAllGoods();
+
+
+	/**
+	 * 添加商品
+	 * @return
+	 */
+	boolean addGoods(Goods goods);
+
+	/**
+	 * s删除商品
+	 * @param ids
+	 * @return
+	 */
+	boolean delGoods(Integer[] ids);
+
+
+	Goods selectGoodsById(Integer goodsId);
 }

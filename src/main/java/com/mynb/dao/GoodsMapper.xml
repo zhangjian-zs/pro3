@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mynb.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.mynb.pojo.Goods" >
+    <id column="goods_id" property="goodsId" jdbcType="SMALLINT" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DOUBLE" />
+    <result column="goods_left" property="goodsLeft" jdbcType="SMALLINT" />
+    <result column="goods_detail" property="goodsDetail" jdbcType="VARCHAR" />
+    <result column="goods_picture" property="goodsPicture" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goods_id, goods_name, goods_price, goods_left, goods_detail, goods_picture
+  </sql>
+  <select id="listAllGoods" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from goods
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where goods_id = #{goodsId,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from goods
+    where goods_id = #{goodsId,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.mynb.pojo.Goods" >
+    insert into goods (goods_id, goods_name, goods_price, 
+      goods_left, goods_detail, goods_picture
+      )
+    values (#{goodsId,jdbcType=SMALLINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DOUBLE}, 
+      #{goodsLeft,jdbcType=SMALLINT}, #{goodsDetail,jdbcType=VARCHAR}, #{goodsPicture,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mynb.pojo.Goods" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsLeft != null" >
+        goods_left,
+      </if>
+      <if test="goodsDetail != null" >
+        goods_detail,
+      </if>
+      <if test="goodsPicture != null" >
+        goods_picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=SMALLINT},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsLeft != null" >
+        #{goodsLeft,jdbcType=SMALLINT},
+      </if>
+      <if test="goodsDetail != null" >
+        #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null" >
+        #{goodsPicture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mynb.pojo.Goods" >
+    update goods
+    <set >
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsLeft != null" >
+        goods_left = #{goodsLeft,jdbcType=SMALLINT},
+      </if>
+      <if test="goodsDetail != null" >
+        goods_detail = #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPicture != null" >
+        goods_picture = #{goodsPicture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mynb.pojo.Goods" >
+    update goods
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=DOUBLE},
+      goods_left = #{goodsLeft,jdbcType=SMALLINT},
+      goods_detail = #{goodsDetail,jdbcType=VARCHAR},
+      goods_picture = #{goodsPicture,jdbcType=VARCHAR}
+    where goods_id = #{goodsId,jdbcType=SMALLINT}
+  </update>
+</mapper>

@@ -5,9 +5,11 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mynb.dao.CollegeMapper;
+import com.mynb.dao.GoodsMapper;
 import com.mynb.dao.StudentMapper;
 import com.mynb.dao.UserinfoMapper;
 import com.mynb.pojo.College;
+import com.mynb.pojo.Goods;
 import com.mynb.pojo.Student;
 import com.mynb.pojo.Userinfo;
 import com.mynb.util.MD5;
@@ -15,22 +17,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class CardServiceImpl implements ICardService{
 	private UserinfoMapper userinfoMapper;
 	private StudentMapper studentMapper;
 	private CollegeMapper collegeMapper;
+	private GoodsMapper goodsMapper;
 
 	public CardServiceImpl() {
 	}
 
 	@Autowired
-	public CardServiceImpl(UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper) {
+	public CardServiceImpl(UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper, GoodsMapper goodsMapper) {
 		this.userinfoMapper = userinfoMapper;
 		this.studentMapper = studentMapper;
 		this.collegeMapper = collegeMapper;
+		this.goodsMapper = goodsMapper;
 	}
+
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
@@ -92,6 +98,32 @@ public class CardServiceImpl implements ICardService{
 		Userinfo userinfo = userinfoMapper.selectByPrimaryKey(userId);
 
 		return MD5.enctypeMD5("haha"+newPasswd).equals(userinfo.getUserPasswd());
+	}
+
+	@Override
+	public List<Goods> listAllGoods() {
+		return goodsMapper.listAllGoods();
+	}
+
+	@Override
+	public boolean addGoods(Goods goods) {
+		return goodsMapper.insertSelective(goods)>0;
+	}
+
+	@Override
+	public boolean delGoods(@RequestBody Integer[] ids) {
+		int rt = 0;
+		for (Integer id : ids) {
+			if(goodsMapper.deleteByPrimaryKey(id)>0) {
+				rt++;
+			}
+		}
+		return rt==ids.length;
+	}
+
+	@Override
+	public Goods selectGoodsById(Integer goodsId) {
+		return goodsMapper.selectByPrimaryKey(goodsId);
 	}
 
 
