@@ -36,7 +36,7 @@
     stu_id,stu_no,stu_name,stu_phone,stu_remain
     from student order by stu_id desc
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from student
