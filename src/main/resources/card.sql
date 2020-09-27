@@ -53,7 +53,7 @@ insert into userinfo(user_name,user_login) values('张三','zhangsan');
 /*商品表*/
 drop table if exists goods;
 create table if not exists goods (
-  goods_id smallint(11) NOT NULL AUTO_INCREMENT primary key,
+  goods_id smallint NOT NULL AUTO_INCREMENT primary key,
   goods_name varchar(30) NOT NULL,
   goods_price double default 0,
   goods_left smallint DEFAULT 0,
@@ -65,14 +65,30 @@ insert into goods (goods_name,goods_price,goods_left) values ('乐扣杯',40,100
 insert into goods (goods_name,goods_price,goods_left) values ('罗技k120',55,200);
 insert into goods (goods_name,goods_price,goods_left) values ('脆司令',2,600);
 
+/*购物车订单表*/
+drop table if exists orders;
+create table if not exists orders (
+  order_id int NOT NULL AUTO_INCREMENT primary key,
+  stu_id int not null,
+  goods_id int not null,
+  goods_count int not null,
+  create_time timestamp default now()
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+insert into orders (stu_id,goods_id,goods_count) values (1,1,10);
+insert into orders (stu_id,goods_id,goods_count) values (1,2,5);
+insert into orders (stu_id,goods_id,goods_count) values (2,2,5);
 
 
-
-
-
-
-
-
+drop table if exists dingdan;
+CREATE TABLE dingdan (
+      dingdan_id int primary key auto_increment,
+      dingdan_no varchar(20) not null COMMENT '订单号',
+      dingdan_amount varchar(11) not null COMMENT '订单金额',
+      buy_counts int not null COMMENT '产品购买的个数',
+      create_time datetime not null COMMENT '订单创建时间',
+      pay_time timestamp DEFAULT now() COMMENT '支付时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
 
 
 

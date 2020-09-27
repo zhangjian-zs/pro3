@@ -1,5 +1,7 @@
 package com.mynb.pojo;
 
+import org.springframework.beans.factory.BeanNameAware;
+
 import java.io.Serializable;
 
 public class College implements Serializable {

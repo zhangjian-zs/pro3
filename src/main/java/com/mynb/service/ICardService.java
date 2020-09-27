@@ -1,10 +1,10 @@
 package com.mynb.service;
 
 import com.github.pagehelper.PageInfo;
-import com.mynb.pojo.College;
-import com.mynb.pojo.Goods;
-import com.mynb.pojo.Student;
-import com.mynb.pojo.Userinfo;
+import com.mynb.pojo.*;
+import com.mynb.vo.ConsumedGoods;
+import com.mynb.vo.OrdersDetail;
+import com.mynb.vo.StudentDetail;
 
 import java.util.List;
 
@@ -103,4 +103,60 @@ public interface ICardService {
 
 
 	Goods selectGoodsById(Integer goodsId);
+
+	/**
+	 * 修改goods对象
+	 * @param goods
+	 * @return
+	 */
+	boolean updateGoods(Goods goods);
+
+	/**
+	 * student login method
+	 * @param stuName
+	 * @param password
+	 * @return
+	 */
+	Student stuLogin(String stuName, String password);
+
+
+	/**
+	 * 根据id获取学生详细信息
+	 * @param stuId
+	 * @return
+	 */
+	StudentDetail selStuDetailById(Integer stuId);
+
+	/**
+	 * 添加购物信息
+	 * @param orders
+	 * @return
+	 */
+	boolean addOrder(Orders orders);
+
+	/**
+	 * 查询所有购物车订单的属性
+	 * @return
+	 */
+	List<OrdersDetail> listAllOrdersDetails();
+
+    boolean delOrder(Integer orderId);
+
+	boolean updateOrder(Integer orderId, Integer goodsCount);
+
+	boolean addDingdan(Integer buyCounts);
+
+	/**
+	 * 消费商品之后进行对应商品数量的减少
+	 * @param
+	 * @return
+	 */
+	boolean consumeGoods(ConsumedGoods[] cgs);
+
+	/**
+	 * 删除id对应的order
+	 * @param ids
+	 * @return
+	 */
+	boolean delOrders(Integer[] ids);
 }

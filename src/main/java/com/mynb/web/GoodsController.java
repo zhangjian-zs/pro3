@@ -1,15 +1,17 @@
 package com.mynb.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mynb.pojo.Goods;
 import com.mynb.pojo.Userinfo;
 import com.mynb.service.ICardService;
+import com.mynb.vo.ConsumedGoods;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -44,7 +46,7 @@ public class GoodsController {
             return "文件为空";
         }
         try {
-            MinioClient minioClient = new MinioClient("http://172.20.6.138:9000", "minioadmin", "minioadmin"); // 连接
+            MinioClient minioClient = new MinioClient("http://localhost:9000", "minioadmin", "minioadmin"); // 连接
             if (!minioClient.bucketExists("goods")) { // 是否存在名为“test”的bucket
                 minioClient.makeBucket("goods");
             }
@@ -94,5 +96,25 @@ public class GoodsController {
     @RequestMapping(path="/getGoodsInfoById",method = {RequestMethod.GET,RequestMethod.POST})
     public Goods getGoodsInfoById(Integer goodsId) {
         return cardService.selectGoodsById(goodsId);
+    }
+
+
+    /**
+     * 更新goods
+     * @param goods
+     * @return
+     */
+    @RequestMapping(path="/updateGoods",method = {RequestMethod.GET,RequestMethod.POST})
+    public boolean updateGoods(@RequestBody Goods goods) {
+        return cardService.updateGoods(goods);
+    }
+
+
+
+
+    @RequestMapping(path="/consumeGoods",method = {RequestMethod.GET,RequestMethod.POST})
+    public boolean consumeGoods(@RequestBody ConsumedGoods[] cgs)  {
+
+        return cardService.consumeGoods(cgs);
     }
 }

@@ -1,18 +1,16 @@
 package com.mynb.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mynb.dao.CollegeMapper;
-import com.mynb.dao.GoodsMapper;
-import com.mynb.dao.StudentMapper;
-import com.mynb.dao.UserinfoMapper;
-import com.mynb.pojo.College;
-import com.mynb.pojo.Goods;
-import com.mynb.pojo.Student;
-import com.mynb.pojo.Userinfo;
+import com.mynb.dao.*;
+import com.mynb.pojo.*;
 import com.mynb.util.MD5;
+import com.mynb.vo.ConsumedGoods;
+import com.mynb.vo.OrdersDetail;
+import com.mynb.vo.StudentDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,17 +23,24 @@ public class CardServiceImpl implements ICardService{
 	private StudentMapper studentMapper;
 	private CollegeMapper collegeMapper;
 	private GoodsMapper goodsMapper;
-
+	private OrdersMapper ordersMapper;
+	private DingdanMapper dingdanMapper;
 	public CardServiceImpl() {
 	}
 
 	@Autowired
-	public CardServiceImpl(UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper, GoodsMapper goodsMapper) {
+	public CardServiceImpl(UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper, GoodsMapper goodsMapper, OrdersMapper ordersMapper, DingdanMapper dingdanMapper) {
 		this.userinfoMapper = userinfoMapper;
 		this.studentMapper = studentMapper;
 		this.collegeMapper = collegeMapper;
 		this.goodsMapper = goodsMapper;
+		this.ordersMapper = ordersMapper;
+		this.dingdanMapper = dingdanMapper;
 	}
+
+
+
+
 
 
 	@Override
@@ -124,6 +129,78 @@ public class CardServiceImpl implements ICardService{
 	@Override
 	public Goods selectGoodsById(Integer goodsId) {
 		return goodsMapper.selectByPrimaryKey(goodsId);
+	}
+
+	@Override
+	public boolean updateGoods(Goods goods) {
+		return goodsMapper.updateByPrimaryKeySelective(goods)>0;
+	}
+
+	@Override
+	public Student stuLogin(String stuName, String password) {
+		return studentMapper.selectStuByLoginAndPass(stuName, MD5.enctypeMD5("haha"+password));
+	}
+
+	@Override
+	public StudentDetail selStuDetailById(Integer stuId) {
+		return studentMapper.selectStudetailById(stuId);
+	}
+
+	@Override
+	public boolean addOrder(Orders orders) {
+		return ordersMapper.insertSelective(orders)>0;
+	}
+
+	@Override
+	public List<OrdersDetail> listAllOrdersDetails() {
+		return ordersMapper.listAllOrdersDetails();
+	}
+
+	@Override
+	public boolean delOrder(Integer orderId) {
+		return ordersMapper.deleteByPrimaryKey(orderId)>0;
+	}
+
+	@Override
+	public boolean updateOrder(Integer orderId, Integer goodsCount) {
+		Orders orders = new Orders();
+		orders.setOrderId(orderId);
+		orders.setGoodsCount(goodsCount);
+		return ordersMapper.updateByPrimaryKeySelective(orders)>0;
+	}
+
+	@Override
+	public boolean addDingdan(Integer buyCounts) {
+		Dingdan dingdan = new Dingdan();
+		dingdan.setDingdanNo(String.valueOf(System.nanoTime()));
+		dingdan.setBuyCounts(buyCounts);
+		dingdan.setPayTime(new Date());
+		return dingdanMapper.insertSelective(dingdan)>0;
+	}
+
+	@Override
+	public boolean consumeGoods(ConsumedGoods[] cgs) {
+		int rt = 0;
+		for (ConsumedGoods cg : cgs) {
+			Goods goods = goodsMapper.selectByPrimaryKey(cg.getGoodsId());
+			goods.setGoodsLeft((short)(int)(goods.getGoodsLeft()-cg.getGoodsCount()));
+			if(goodsMapper.updateByPrimaryKeySelective(goods)>0){
+				rt++;
+			}
+
+		}
+		return rt==cgs.length;
+	}
+
+	@Override
+	public boolean delOrders(Integer[] ids) {
+		int i=0;
+		for (Integer id : ids) {
+			if(ordersMapper.deleteByPrimaryKey(id)>0){
+				i++;
+			}
+		}
+		return i==ids.length;
 	}
 
 

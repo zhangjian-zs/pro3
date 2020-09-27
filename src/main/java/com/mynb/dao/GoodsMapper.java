@@ -1,9 +1,10 @@
 package com.mynb.dao;
 
 import com.mynb.pojo.Goods;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface GoodsMapper {
     int deleteByPrimaryKey(int goodsId);
 

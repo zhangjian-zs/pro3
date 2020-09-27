@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mynb.dao.DingdanMapper" >
+  <resultMap id="BaseResultMap" type="com.mynb.pojo.Dingdan" >
+    <id column="dingdan_id" property="dingdanId" jdbcType="INTEGER" />
+    <result column="dingdan_no" property="dingdanNo" jdbcType="VARCHAR" />
+    <result column="buy_counts" property="buyCounts" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dingdan_id, dingdan_no, buy_counts, pay_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dingdan
+    where dingdan_id = #{dingdanId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dingdan
+    where dingdan_id = #{dingdanId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mynb.pojo.Dingdan" >
+    insert into dingdan (dingdan_id, dingdan_no, buy_counts, 
+      pay_time)
+    values (#{dingdanId,jdbcType=INTEGER}, #{dingdanNo,jdbcType=VARCHAR}, #{buyCounts,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mynb.pojo.Dingdan" >
+    insert into dingdan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dingdanId != null" >
+        dingdan_id,
+      </if>
+      <if test="dingdanNo != null" >
+        dingdan_no,
+      </if>
+      <if test="buyCounts != null" >
+        buy_counts,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dingdanId != null" >
+        #{dingdanId,jdbcType=INTEGER},
+      </if>
+      <if test="dingdanNo != null" >
+        #{dingdanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCounts != null" >
+        #{buyCounts,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mynb.pojo.Dingdan" >
+    update dingdan
+    <set >
+      <if test="dingdanNo != null" >
+        dingdan_no = #{dingdanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="buyCounts != null" >
+        buy_counts = #{buyCounts,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dingdan_id = #{dingdanId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mynb.pojo.Dingdan" >
+    update dingdan
+    set dingdan_no = #{dingdanNo,jdbcType=VARCHAR},
+      buy_counts = #{buyCounts,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP}
+    where dingdan_id = #{dingdanId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -12,17 +12,41 @@
     <result column="stu_remain" property="stuRemain"  />
     <result column="stu_note" property="stuNote"   />
     <result column="college_id" property="collegeId"  />
-  </resultMap><resultMap id="PartResultMap" type="com.mynb.pojo.Student" >
-  <id column="stu_id" property="stuId"  />
-  <result column="stu_no" property="stuNo"  />
-  <result column="stu_name" property="stuName"   />
-  <result column="stu_phone" property="stuPhone"  />
-  <result column="stu_remain" property="stuRemain"  />
-</resultMap>
+  </resultMap>
+  <resultMap id="DetailResultMap" type="com.mynb.vo.StudentDetail" >
+    <id column="stu_id" property="stuId"  />
+    <result column="stu_no" property="stuNo"  />
+    <result column="stu_name" property="stuName"   />
+    <result column="stu_login" property="stuLogin"   />
+    <result column="stu_passwd" property="stuPasswd"  />
+    <result column="stu_phone" property="stuPhone"  />
+    <result column="stu_limit" property="stuLimit"  />
+    <result column="stu_remain" property="stuRemain"  />
+    <result column="stu_note" property="stuNote"   />
+    <association property="college" column="college_id" select="com.mynb.dao.CollegeMapper.selectByPrimaryKey"
+                 javaType="com.mynb.pojo.College"></association>
+  </resultMap>
+  <resultMap id="PartResultMap" type="com.mynb.pojo.Student" >
+    <id column="stu_id" property="stuId"  />
+    <result column="stu_no" property="stuNo"  />
+    <result column="stu_name" property="stuName"   />
+    <result column="stu_phone" property="stuPhone"  />
+    <result column="stu_remain" property="stuRemain"  />
+  </resultMap>
   <sql id="Base_Column_List" >
     stu_id, stu_no, stu_name, stu_login, stu_passwd, stu_phone, stu_limit, stu_remain,
     stu_note, college_id
   </sql>
+  <select id="selectStudetailById" resultMap="DetailResultMap">
+    select <include refid="Base_Column_List" /> from student where
+    stu_id=#{stuId}
+
+  </select>
+  <select id="selectStuByLoginAndPass" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from student where
+    stu_login=#{login} and stu_passwd=#{pwd}
+
+  </select>
   <select id="selectStusByInfo" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from student where stu_no like #{info} union
     select <include refid="Base_Column_List" /> from student where stu_name like #{info} union

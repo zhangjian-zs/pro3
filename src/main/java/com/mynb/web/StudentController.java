@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.mynb.pojo.Student;
 import com.mynb.pojo.Userinfo;
 import com.mynb.service.ICardService;
+import com.mynb.vo.StudentDetail;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,28 @@ public class StudentController {
         return list;
     }
 
+
+    /**
+     * 学生登录
+     *
+     * @param login
+     * @param password
+     * @return
+     */
+    @RequestMapping(path="/stuLogin",method = {RequestMethod.GET,RequestMethod.POST})
+    public Student stuLogin(String login,String password) {
+        Student student = cardService.stuLogin(login,password);
+        return student;
+    }
+
+
+
+
+    @RequestMapping(path="/getStuDetailById",method = {RequestMethod.GET,RequestMethod.POST})
+    public StudentDetail getStuDetailsById(Integer stuId) {
+        StudentDetail studentDetail = cardService.selStuDetailById(stuId);
+        return studentDetail;
+    }
 
 }
 

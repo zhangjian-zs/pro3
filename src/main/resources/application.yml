@@ -11,6 +11,7 @@ spring:
       suffix: .jsp
 
 mybatis: #设置mybatis包扫描简称
+  #配置mybatis配置文件的路径 config-location: classpath:mybatis.xml
   type-aliases-package: com.mynb.pojo
   #mapper-locations: classpath:mybatis/com/**/dao/*.xml #映射文件的位置
 server:

@@ -1,6 +1,8 @@
 package com.mynb.dao;
 
 import com.mynb.pojo.Student;
+import com.mynb.vo.StudentDetail;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +33,15 @@ public interface StudentMapper {
      * @return
      */
     List<Student> selectStusByInfo(String info);
+
+    /**
+     * stu login
+     * @param stuName
+     * @param password
+     * @return
+     */
+    Student selectStuByLoginAndPass(@Param("login") String stuName, @Param("pwd") String password);
+
+
+    StudentDetail selectStudetailById(Integer stuId);
 }
