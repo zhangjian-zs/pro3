@@ -144,7 +144,7 @@ public interface ICardService {
 
 	boolean updateOrder(Integer orderId, Integer goodsCount);
 
-	boolean addDingdan(Integer buyCounts);
+	boolean addDingdan(Integer buyCounts,String dingdanNo);
 
 	/**
 	 * 消费商品之后进行对应商品数量的减少

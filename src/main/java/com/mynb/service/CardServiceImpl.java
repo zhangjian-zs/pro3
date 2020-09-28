@@ -1,8 +1,5 @@
 package com.mynb.service;
 
-import java.util.Date;
-import java.util.List;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mynb.dao.*;
@@ -16,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CardServiceImpl implements ICardService{
@@ -170,9 +170,9 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
-	public boolean addDingdan(Integer buyCounts) {
+	public boolean addDingdan(Integer buyCounts,String dingdanNo) {
 		Dingdan dingdan = new Dingdan();
-		dingdan.setDingdanNo(String.valueOf(System.nanoTime()));
+		dingdan.setDingdanNo(dingdanNo);
 		dingdan.setBuyCounts(buyCounts);
 		dingdan.setPayTime(new Date());
 		return dingdanMapper.insertSelective(dingdan)>0;

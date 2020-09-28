@@ -50,7 +50,6 @@ public class OrdersController {
 
     @RequestMapping(path="/delOrders",method = {RequestMethod.GET,RequestMethod.POST})
     public boolean delOrders(@RequestBody Integer[] ids) {
-        System.out.println("======"+ids);
         return cardService.delOrders(ids);
     }
 }
