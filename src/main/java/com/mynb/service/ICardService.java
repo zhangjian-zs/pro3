@@ -159,4 +159,13 @@ public interface ICardService {
 	 * @return
 	 */
 	boolean delOrders(Integer[] ids);
+
+	/**
+	 * 根据姓名查询密码，shiro中使用
+	 * @param userLogin
+	 * @return
+	 */
+	Userinfo selectUserByName(String userLogin);
+
+
 }

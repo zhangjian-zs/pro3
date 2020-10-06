@@ -203,5 +203,10 @@ public class CardServiceImpl implements ICardService{
 		return i==ids.length;
 	}
 
+	@Override
+	public Userinfo selectUserByName(String userLogin) {
+		return userinfoMapper.selectUserByName(userLogin);
+	}
+
 
 }

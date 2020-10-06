@@ -2,15 +2,11 @@ package com.mynb.web;
 
 import com.github.pagehelper.PageInfo;
 import com.mynb.pojo.Student;
-import com.mynb.pojo.Userinfo;
 import com.mynb.service.ICardService;
 import com.mynb.vo.StudentDetail;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController    //@RestController=@Controller + @ResponseBody
@@ -20,6 +16,8 @@ public class StudentController {
     @Autowired
     private ICardService cardService;
 
+    //@RequiresRoles("班主任")
+    //@RequiresPermissions("user:find:*")
     @RequestMapping(path="/listAllStu",method = {RequestMethod.GET,RequestMethod.POST})
     public PageInfo<Student> listAllStu(@RequestParam(required = false,name = "page",defaultValue = "1") Integer page) {
         //自定义每页显示的条数

@@ -5,10 +5,20 @@ spring:
       username: root
       password: xiaojian520
       driver-class-name: com.mysql.cj.jdbc.Driver
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+  application:
+    name: pro3 #在nacos Server上的名字
+
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+
 
 mybatis: #设置mybatis包扫描简称
   #配置mybatis配置文件的路径 config-location: classpath:mybatis.xml

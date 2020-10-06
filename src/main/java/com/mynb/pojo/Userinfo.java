@@ -11,6 +11,16 @@ public class Userinfo implements Serializable {
 
     private String userPasswd;
 
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Integer getUserId() {
         return userId;
     }

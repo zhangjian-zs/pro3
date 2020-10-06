@@ -10,6 +10,14 @@
   <sql id="Base_Column_List" >
     user_id, user_name, user_login, user_passwd
   </sql>
+
+
+  <select id="selectUserByName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from userinfo
+    where user_login = #{userLogin}
+  </select>
   <select id="selectUserinfoByLoginAndPwd" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />

@@ -19,4 +19,6 @@ public interface UserinfoMapper {
     int updateByPrimaryKey(Userinfo record);
 
     Userinfo selectUserinfoByLoginAndPwd(@Param("login") String login, @Param("pwd") String pwd);
+
+    Userinfo selectUserByName(String userLogin);
 }
