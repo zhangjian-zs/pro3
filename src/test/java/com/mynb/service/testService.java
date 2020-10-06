@@ -1,6 +1,8 @@
 package com.mynb.service;
 
+import com.mynb.dao.RoleRightsMapper;
 import com.mynb.dao.StudentMapper;
+import com.mynb.pojo.Rights;
 import com.mynb.pojo.Student;
 import com.mynb.vo.StudentDetail;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,8 @@ public class testService {
     private ICardService cardService;
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private RoleRightsMapper roleRightsMapper;
 
     @Test
     public void testSelectStusByInfo() throws Exception{
@@ -30,5 +34,13 @@ public class testService {
         StudentDetail studentDetail = studentMapper.selectStudetailById(1);
         org.junit.jupiter.api.Assertions.assertNotNull(studentDetail);
         System.out.println(studentDetail);
+    }
+    @Test
+    public void test5() throws Exception{
+        List<Rights> list = roleRightsMapper.findPermsByRoleId(1);
+        org.junit.jupiter.api.Assertions.assertTrue(list.size()>0);
+        for (Rights rights : list) {
+            System.out.println(rights);
+        }
     }
 }

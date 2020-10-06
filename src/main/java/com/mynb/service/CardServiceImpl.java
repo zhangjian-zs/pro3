@@ -25,11 +25,13 @@ public class CardServiceImpl implements ICardService{
 	private GoodsMapper goodsMapper;
 	private OrdersMapper ordersMapper;
 	private DingdanMapper dingdanMapper;
+	private RoleRightsMapper roleRightsMapper;
 	public CardServiceImpl() {
 	}
 
 	@Autowired
-	public CardServiceImpl(UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper, GoodsMapper goodsMapper, OrdersMapper ordersMapper, DingdanMapper dingdanMapper) {
+	public CardServiceImpl(RoleRightsMapper roleRightsMapper,UserinfoMapper userinfoMapper, StudentMapper studentMapper, CollegeMapper collegeMapper, GoodsMapper goodsMapper, OrdersMapper ordersMapper, DingdanMapper dingdanMapper) {
+		this.roleRightsMapper = roleRightsMapper;
 		this.userinfoMapper = userinfoMapper;
 		this.studentMapper = studentMapper;
 		this.collegeMapper = collegeMapper;
@@ -78,27 +80,32 @@ public class CardServiceImpl implements ICardService{
 	}
 
     @Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public boolean addStu(Student student) {
         return studentMapper.insertSelective(student)>0;
     }
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean delStuBySid(Integer stuId) {
 		return studentMapper.deleteByPrimaryKey(stuId)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public List<Student> selectStusByInfo(String info) {
 		return studentMapper.selectStusByInfo("%"+info+"%");
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean updateUserinfo(Userinfo userinfo) {
 		userinfo.setUserPasswd(MD5.enctypeMD5("haha"+userinfo.getUserPasswd()));
 		return userinfoMapper.updateByPrimaryKeySelective(userinfo)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public boolean confirmPwd(Integer userId, String newPasswd) {
 		Userinfo userinfo = userinfoMapper.selectByPrimaryKey(userId);
 
@@ -106,16 +113,19 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public List<Goods> listAllGoods() {
 		return goodsMapper.listAllGoods();
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean addGoods(Goods goods) {
 		return goodsMapper.insertSelective(goods)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean delGoods(@RequestBody Integer[] ids) {
 		int rt = 0;
 		for (Integer id : ids) {
@@ -127,41 +137,49 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public Goods selectGoodsById(Integer goodsId) {
 		return goodsMapper.selectByPrimaryKey(goodsId);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean updateGoods(Goods goods) {
 		return goodsMapper.updateByPrimaryKeySelective(goods)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public Student stuLogin(String stuName, String password) {
 		return studentMapper.selectStuByLoginAndPass(stuName, MD5.enctypeMD5("haha"+password));
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public StudentDetail selStuDetailById(Integer stuId) {
 		return studentMapper.selectStudetailById(stuId);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean addOrder(Orders orders) {
 		return ordersMapper.insertSelective(orders)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public List<OrdersDetail> listAllOrdersDetails() {
 		return ordersMapper.listAllOrdersDetails();
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean delOrder(Integer orderId) {
 		return ordersMapper.deleteByPrimaryKey(orderId)>0;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean updateOrder(Integer orderId, Integer goodsCount) {
 		Orders orders = new Orders();
 		orders.setOrderId(orderId);
@@ -170,6 +188,7 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean addDingdan(Integer buyCounts,String dingdanNo) {
 		Dingdan dingdan = new Dingdan();
 		dingdan.setDingdanNo(dingdanNo);
@@ -179,6 +198,7 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean consumeGoods(ConsumedGoods[] cgs) {
 		int rt = 0;
 		for (ConsumedGoods cg : cgs) {
@@ -193,6 +213,7 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean delOrders(Integer[] ids) {
 		int i=0;
 		for (Integer id : ids) {
@@ -204,8 +225,21 @@ public class CardServiceImpl implements ICardService{
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
 	public Userinfo selectUserByName(String userLogin) {
 		return userinfoMapper.selectUserByName(userLogin);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+	public Userinfo findRoleByUserLogin(String userLogin) {
+		return userinfoMapper.findRoleByUserLogin(userLogin);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+	public List<Rights> findPermsByRoleId(Integer roleid) {
+		return roleRightsMapper.findPermsByRoleId(roleid);
 	}
 
 

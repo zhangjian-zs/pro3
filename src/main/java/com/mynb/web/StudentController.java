@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.mynb.pojo.Student;
 import com.mynb.service.ICardService;
 import com.mynb.vo.StudentDetail;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class StudentController {
     private ICardService cardService;
 
     //@RequiresRoles("班主任")
-    //@RequiresPermissions("user:find:*")
+    @RequiresPermissions("user:*:*")
     @RequestMapping(path="/listAllStu",method = {RequestMethod.GET,RequestMethod.POST})
     public PageInfo<Student> listAllStu(@RequestParam(required = false,name = "page",defaultValue = "1") Integer page) {
         //自定义每页显示的条数

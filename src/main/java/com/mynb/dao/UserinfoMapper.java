@@ -21,4 +21,6 @@ public interface UserinfoMapper {
     Userinfo selectUserinfoByLoginAndPwd(@Param("login") String login, @Param("pwd") String pwd);
 
     Userinfo selectUserByName(String userLogin);
+
+    Userinfo findRoleByUserLogin(String userLogin);
 }

@@ -1,13 +1,14 @@
 package com.mynb.web;
 
-import com.mynb.pojo.Student;
 import com.mynb.pojo.Userinfo;
 import com.mynb.service.ICardService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController    //@RestController=@Controller + @ResponseBody
 @CrossOrigin(allowCredentials="true", allowedHeaders="*")
@@ -16,7 +17,7 @@ public class UserinfoController {
     @Autowired
     private ICardService cardService;
 
-    @RequestMapping(path="/login",method = {RequestMethod.GET,RequestMethod.POST})
+/*    @RequestMapping(path="/login",method = {RequestMethod.GET,RequestMethod.POST})
     public boolean verifyLogin(@RequestBody Userinfo userinfo, HttpSession session) {
         boolean rt = false;
         Userinfo u = cardService.UserLogin(userinfo.getUserLogin(), userinfo.getUserPasswd());
@@ -25,6 +26,16 @@ public class UserinfoController {
             rt = true;
         }
         return rt;
+    }*/
+
+    @RequestMapping(path="/login",method = {RequestMethod.GET,RequestMethod.POST})
+    public boolean verifyLogin(@RequestBody Userinfo userinfo, HttpSession session) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(new UsernamePasswordToken(userinfo.getUserLogin(),userinfo.getUserPasswd()));
+        String login = (String) subject.getPrincipal();
+        Userinfo u = cardService.selectUserByName(login);
+        session.setAttribute("userinfo",u);
+        return subject.isAuthenticated();
     }
 
     @RequestMapping(path="/getUserName",method = {RequestMethod.GET,RequestMethod.POST})

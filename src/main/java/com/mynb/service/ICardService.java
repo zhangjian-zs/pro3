@@ -167,5 +167,17 @@ public interface ICardService {
 	 */
 	Userinfo selectUserByName(String userLogin);
 
+	/**
+	 * 根据用户名查询用户信息
+	 * @param userLogin
+	 * @return
+	 */
+	Userinfo findRoleByUserLogin(String userLogin);
 
+	/**
+	 * 根据roleid查询rights
+	 * @param roleid
+	 * @return
+	 */
+	List<Rights> findPermsByRoleId(Integer roleid);
 }

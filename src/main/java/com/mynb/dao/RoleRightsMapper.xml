@@ -6,11 +6,24 @@
     <result column="roleId" jdbcType="INTEGER" property="roleid" />
     <result column="rightId" jdbcType="INTEGER" property="rightid" />
   </resultMap>
+  <resultMap id="RightsMap" type="com.mynb.pojo.Rights">
+    <id column="rightId" jdbcType="INTEGER" property="rightid" />
+    <result column="rightName" jdbcType="VARCHAR" property="rightname" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
   <sql id="Base_Column_List">
     rrid, roleId, rightId
   </sql>
+  <select id="findPermsByRoleId" parameterType="java.lang.Integer" resultMap="RightsMap">
+    select
+    rs.rightId, rs.rightName, rs.url
+    from rights rs
+    left join role_rights rr
+    on rs.rightId = rr.rightId
+    where rr.roleId = #{roleid}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from role_rights
     where rrid = #{rrid,jdbcType=INTEGER}

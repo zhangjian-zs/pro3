@@ -1,7 +1,12 @@
 package com.mynb.dao;
 
+import com.mynb.pojo.Rights;
 import com.mynb.pojo.RoleRights;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface RoleRightsMapper {
     int deleteByPrimaryKey(Integer rrid);
 
@@ -14,4 +19,11 @@ public interface RoleRightsMapper {
     int updateByPrimaryKeySelective(RoleRights record);
 
     int updateByPrimaryKey(RoleRights record);
+
+    /**
+     * 根据roleid查询权限
+     * @param roleid
+     * @return
+     */
+    List<Rights> findPermsByRoleId(Integer roleid);
 }

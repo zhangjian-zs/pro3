@@ -1,12 +1,10 @@
 package com.mynb.web;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mynb.pojo.Goods;
-import com.mynb.pojo.Userinfo;
 import com.mynb.service.ICardService;
 import com.mynb.vo.ConsumedGoods;
 import io.minio.MinioClient;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +26,7 @@ public class GoodsController {
      * 查询所有商品
      * @return
      */
+    @RequiresPermissions("prod:*:*")
     @RequestMapping(path="/getAllGoods",method = {RequestMethod.GET,RequestMethod.POST})
     public List<Goods> getAllGoods() {
         return cardService.listAllGoods();
