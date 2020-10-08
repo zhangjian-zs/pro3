@@ -1,8 +1,9 @@
 package com.mynb.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Orders {
+public class Orders implements Serializable {
     private Integer orderId;
 
     private Integer stuId;

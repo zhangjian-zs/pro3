@@ -1,6 +1,8 @@
 package com.mynb.pojo;
 
-public class Goods {
+import java.io.Serializable;
+
+public class Goods implements Serializable {
     private Short goodsId;
 
     private String goodsName;

@@ -5,7 +5,20 @@ spring:
       username: root
       password: xiaojian520
       driver-class-name: com.mysql.cj.jdbc.Driver
-
+  #redis配置
+  redis:
+    host: 127.0.0.1           #192.168.0.109
+    port: 6379
+    jedis:   #jedis的配置可以省
+      pool:
+        max-idle: 20      # 连接池中的最大空闲连接
+        min-idle: 1
+        max-active: 20    # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: 60000   #连接池最大阻塞等待时间
+    database: 0   #这里不配置默认就是0号数据库
+    #集群
+    #cluster:
+    #以后连接池的配置要用lettuce，因为redis连接工厂中很多类已经不存在了，连接一定不成功
   cloud:
     nacos:
       discovery:

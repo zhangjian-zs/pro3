@@ -1,6 +1,8 @@
 package com.mynb.pojo;
 
-public class Rights {
+import java.io.Serializable;
+
+public class Rights implements Serializable {
     private Integer rightid;
 
     private String rightname;

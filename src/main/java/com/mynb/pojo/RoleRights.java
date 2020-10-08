@@ -1,6 +1,8 @@
 package com.mynb.pojo;
 
-public class RoleRights {
+import java.io.Serializable;
+
+public class RoleRights implements Serializable {
     private Integer rrid;
 
     private Integer roleid;

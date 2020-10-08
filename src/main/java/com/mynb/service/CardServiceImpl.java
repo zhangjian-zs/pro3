@@ -9,6 +9,7 @@ import com.mynb.vo.ConsumedGoods;
 import com.mynb.vo.OrdersDetail;
 import com.mynb.vo.StudentDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class CardServiceImpl implements ICardService{
@@ -26,6 +28,8 @@ public class CardServiceImpl implements ICardService{
 	private OrdersMapper ordersMapper;
 	private DingdanMapper dingdanMapper;
 	private RoleRightsMapper roleRightsMapper;
+	@Autowired
+	private RedisTemplate<String,Object> redisTemplate;
 	public CardServiceImpl() {
 	}
 
@@ -63,7 +67,9 @@ public class CardServiceImpl implements ICardService{
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+	//@Cacheable(cacheNames = "def:stu:sel",key = "123")
 	public Student selectStuBySid(Integer studentId) {
+		redisTemplate.opsForValue().set("def:stu:sel"+studentId,studentMapper.selectByPrimaryKey(studentId),100, TimeUnit.SECONDS);
 		return studentMapper.selectByPrimaryKey(studentId);
 	}
 
@@ -76,18 +82,24 @@ public class CardServiceImpl implements ICardService{
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean updateStu(Student student) {
+		redisTemplate.opsForValue().set("def:stu:update"+student.getStuId(),student,100, TimeUnit.SECONDS);
+
 		return studentMapper.updateByPrimaryKeySelective(student)>0;
 	}
 
     @Override
 	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+	//@CachePut(cacheNames = "def:stu:add",key = "#student.stuId+''")
     public boolean addStu(Student student) {
+		redisTemplate.opsForValue().set("def:stu:add"+student.getStuId(),student,100, TimeUnit.SECONDS);
         return studentMapper.insertSelective(student)>0;
     }
 
 	@Override
+	//@CacheEvict(cacheNames = "def:stu:del",key = "#stuId+''",allEntries = false)
 	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public boolean delStuBySid(Integer stuId) {
+		redisTemplate.opsForValue().set("def:stu:del"+stuId,stuId+"",100, TimeUnit.SECONDS);
 		return studentMapper.deleteByPrimaryKey(stuId)>0;
 	}
 

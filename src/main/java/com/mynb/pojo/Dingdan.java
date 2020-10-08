@@ -1,8 +1,9 @@
 package com.mynb.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Dingdan {
+public class Dingdan implements Serializable {
     private Integer dingdanId;
 
     private String dingdanNo;
