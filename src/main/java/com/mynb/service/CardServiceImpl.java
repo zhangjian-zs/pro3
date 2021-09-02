@@ -30,6 +30,7 @@ public class CardServiceImpl implements ICardService{
 	private RoleRightsMapper roleRightsMapper;
 	private String newAddedString;
 
+	private String str;
 	@Autowired
 	private RedisTemplate<String,Object> redisTemplate;
 	public CardServiceImpl() {
