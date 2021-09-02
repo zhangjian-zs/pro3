@@ -28,6 +28,8 @@ public class CardServiceImpl implements ICardService{
 	private OrdersMapper ordersMapper;
 	private DingdanMapper dingdanMapper;
 	private RoleRightsMapper roleRightsMapper;
+	private String newAddedString;
+
 	@Autowired
 	private RedisTemplate<String,Object> redisTemplate;
 	public CardServiceImpl() {
@@ -46,7 +48,9 @@ public class CardServiceImpl implements ICardService{
 
 
 
-
+	private static void add(){
+		System.out.println("this is newly added method!");
+	}
 
 
 	@Override
@@ -61,7 +65,7 @@ public class CardServiceImpl implements ICardService{
 		PageHelper.startPage(page,pageSize);
 		List<Student> students = studentMapper.listAllStu();
 		PageInfo<Student> pages = new PageInfo<>(students);
-		
+
 		return pages;
 	}
 
